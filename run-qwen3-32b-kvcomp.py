@@ -25,8 +25,8 @@ print(f"VLLM_ASCEND_KVCOMP_CONFIG_PATH: {os.getenv('VLLM_ASCEND_KVCOMP_CONFIG_PA
 print(f"VLLM_DISABLE_COMPILE_CACHE: {os.getenv('VLLM_DISABLE_COMPILE_CACHE')}")
 
 prompts = [
-    "Hello, my name is",
-    "The future of AI is",
+    "Hello, my name is"*1000,
+    "The future of AI is"*1000,
 ]
 sampling_params = SamplingParams(temperature=0.6, top_p=0.95, top_k=40)
 llm = LLM(model="/docker/models/Qwen3-32B",
