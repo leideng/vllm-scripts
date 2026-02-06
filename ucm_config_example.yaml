@@ -19,7 +19,7 @@ ucm_connectors:
 
 # Sparse attention configuration
 # Format 1: Dictionary format (for methods like ESA, KvComp)
-# ucm_sparse_config:
+ucm_sparse_config:
 #   ESA:
 #     init_window_sz: 1
 #     local_window_sz: 2
@@ -29,7 +29,7 @@ ucm_connectors:
   # Or for GSA:
   # GSA: {}
   # Or for GSAOnDevice:
-  # GSAOnDevice: {}
+  GSAOnDevice: {}
 
 
 # Whether to use layerwise loading/saving (optional, default: True for UCMConnector)
