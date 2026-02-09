@@ -1,0 +1,4 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   142    0     0  100   142      0    708 --:--:-- --:--:-- --:--:--   706100   631  100   489  100   142    614    178 --:--:-- --:--:-- --:--:--   791
+{"id":"cmpl-d28c73281cee49f98d18d6defd3591bb","object":"text_completion","created":1770632034,"model":"/docker/models/Qwen3-32B","choices":[{"index":0,"text":" city that has long been a beacon","logprobs":null,"finish_reason":"length","stop_reason":null,"token_ids":null,"prompt_logprobs":null,"prompt_token_ids":null}],"service_tier":null,"system_fingerprint":null,"usage":{"prompt_tokens":4,"total_tokens":11,"completion_tokens":7,"prompt_tokens_details":null},"kv_transfer_params":null}

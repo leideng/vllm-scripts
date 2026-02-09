@@ -1,0 +1,4 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   498  100   498    0     0   194k      0 --:--:-- --:--:-- --:--:--  243k
+{"object":"list","data":[{"id":"/docker/models/Qwen3-32B","object":"model","created":1770632046,"owned_by":"vllm","root":"/docker/models/Qwen3-32B","parent":null,"max_model_len":5500,"permission":[{"id":"modelperm-d4bbc080da804750b379b2e3448edba2","object":"model_permission","created":1770632046,"allow_create_engine":false,"allow_sampling":true,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"*","group":null,"is_blocking":false}]}]}
