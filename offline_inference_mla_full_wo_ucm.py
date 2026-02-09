@@ -1,12 +1,10 @@
+# run full MLA without using UCM but simply using vllm-ascend
 import contextlib
 import json
 import os
 
 os.environ["ASCEND_RT_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
-os.system("rm -rf /docker/ldeng/kv_cache/*")
 os.environ["VLLM_USE_V1"] = "1"
-os.environ["ENABLE_SPARSE"] = "true"
-os.environ["VLLM_HASH_ATTENTION"] = "1"
 os.environ["VLLM_DISABLE_COMPILE_CACHE"] = "1"
 
 
@@ -22,9 +20,6 @@ from vllm import LLM, SamplingParams
 from vllm.config import KVTransferConfig
 from vllm.engine.arg_utils import EngineArgs
 
-from ucm.logger import init_logger
-
-logger = init_logger(__name__)
 model = ""
 path_to_dataset = ""
 data_dir = ""
@@ -67,17 +62,9 @@ def setup_environment_variables():
 
 
 @contextlib.contextmanager
-def build_llm_with_uc(module_path: str, name: str, model: str):
-    ktc = KVTransferConfig(
-        kv_connector=name,
-        kv_connector_module_path=module_path,
-        kv_role="kv_both",
-        kv_connector_extra_config={"UCM_CONFIG_FILE": "ucm_config_example.yaml"},
-    )
-
+def build_llm_with_vllm_ascend(model: str):
     llm_args = EngineArgs(
         model=model,
-        #kv_transfer_config=ktc,
         # quantization="ascend",
         max_model_len=32768,
         gpu_memory_utilization=0.8,
@@ -94,7 +81,7 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
     try:
         yield llm
     finally:
-        logger.info("LLM engine is exiting.")
+        print("LLM engine is exiting.")
 
 
 def print_output(
@@ -114,8 +101,6 @@ def print_output(
 
 
 def main():
-    module_path = "ucm.integration.vllm.ucm_connector"
-    name = "UCMConnector"
     setup_environment_variables()
 
     def get_prompt(prompt):
@@ -133,9 +118,9 @@ def main():
             add_special_tokens=True,
         )
 
-    with build_llm_with_uc(module_path, name, model) as llm:
+    with build_llm_with_vllm_ascend(model) as llm:
         prompts = []
-        batch_size = 50
+        batch_size = 200
         assert os.path.isfile(
             path_to_dataset
         ), f"Incorrect dataset path. Please specify the dataset path by `export DATASET_PATH=/path/to/longbench/multifieldqa_zh.jsonl`"

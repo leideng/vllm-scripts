@@ -26,6 +26,8 @@ def setup_environment_variables():
     os.environ["PYTHONHASHSEED"] = "123456"
     os.environ["ENABLE_SPARSE"] = "true"
     os.environ["VLLM_HASH_ATTENTION"] = "1"
+    os.environ["VLLM_DISABLE_COMPILE_CACHE"] = "1"
+
 
     global model, path_to_dataset, data_dir, tokenizer
     model = os.getenv("MODEL_PATH", "/docker/models/Qwen3-32B")
