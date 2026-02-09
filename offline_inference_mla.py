@@ -75,13 +75,13 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
 
     llm_args = EngineArgs(
         model=model,
-        kv_transfer_config=ktc,
+        #kv_transfer_config=ktc,
         # quantization="ascend",
         max_model_len=32768,
         gpu_memory_utilization=0.8,
         # max_num_batched_tokens=30000,
         block_size=128,
-        enforce_eager=True,
+        #enforce_eager=True,
         distributed_executor_backend="mp",
         tensor_parallel_size=8,
         trust_remote_code=True,
@@ -133,7 +133,7 @@ def main():
 
     with build_llm_with_uc(module_path, name, model) as llm:
         prompts = []
-        batch_size = 20
+        batch_size = 50
         assert os.path.isfile(
             path_to_dataset
         ), f"Incorrect dataset path. Please specify the dataset path by `export DATASET_PATH=/path/to/longbench/multifieldqa_zh.jsonl`"
