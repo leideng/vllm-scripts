@@ -1,6 +1,14 @@
 import contextlib
 import json
 import os
+
+os.environ["ASCEND_RT_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
+os.system("rm -rf /docker/ldeng/kv_cache/*")
+os.environ["VLLM_USE_V1"] = "1"
+os.environ["ENABLE_SPARSE"] = "true"
+os.environ["VLLM_HASH_ATTENTION"] = "1"
+
+
 import sys
 import time
 from dataclasses import asdict
@@ -22,12 +30,6 @@ tokenizer = None
 
 
 def setup_environment_variables():
-    os.environ["ASCEND_RT_VISIBLE_DEVICES"] = "0,1,2,3"
-    os.system("rm -rf /docker/ldeng/kv_cache/*")
-    os.environ["VLLM_USE_V1"] = "1"
-    # os.environ["ENABLE_SPARSE"] = "true"
-    # os.environ["VLLM_HASH_ATTENTION"] = "1"
-
     global model, path_to_dataset, data_dir, tokenizer
     model = os.getenv("MODEL_PATH", "/docker/models/DeepSeek-V2-Lite-Chat")
     if not os.path.isdir(model):
@@ -81,7 +83,7 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         block_size=128,
         enforce_eager=True,
         distributed_executor_backend="mp",
-        tensor_parallel_size=4,
+        tensor_parallel_size=8,
         trust_remote_code=True,
         # enable_prefix_caching=False,
     )
