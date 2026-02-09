@@ -4,7 +4,7 @@ import torch
 # Set environment variables for KVComp before importing vllm
 import os
 os.environ["VLLM_ASCEND_ENABLE_KVCOMP_SPARSE"] = "1"
-os.environ["VLLM_ASCEND_KVCOMP_CONFIG_PATH"] = "/docker/ldeng/kvcomp/vllm-ascend/vllm_ascend/worker/kvcomp_configs/vllm_ascend/worker/kvcomp_configs/vllm_ascend/worker/kvcomp_configs/KVComp_Qwen3_32B_config.json"
+#os.environ["VLLM_ASCEND_KVCOMP_CONFIG_PATH"] = "/docker/ldeng/kvcomp/vllm-ascend/vllm_ascend/worker/kvcomp_configs/vllm_ascend/worker/kvcomp_configs/vllm_ascend/worker/kvcomp_configs/KVComp_Qwen3_32B_config.json"
 os.environ["VLLM_DISABLE_COMPILE_CACHE"] = "1"
 
 
