@@ -2,7 +2,7 @@ import os
 import argparse
 
 
-def get_three_prompts(context_length: int = 5000, 
+def get_three_prompt(context_length: int = 5000, 
                       question_index: int = 1, 
                       prompt_save_path: str = None)->str:
     book_path = "data/three/three.txt"
@@ -20,7 +20,7 @@ def get_three_prompts(context_length: int = 5000,
             f.write(prompt)
     
     return prompt
-
+    
 if __name__ == "__main__":
     print("Getting three prompts...")
     parser = argparse.ArgumentParser()
@@ -37,11 +37,11 @@ if __name__ == "__main__":
     prompt_save_path = args.prompt_save_path
 
     if prompt_save_path is None:
-        prompt = get_three_prompts(context_length, question_index)
+        prompt  = get_three_prompt(context_length, question_index)
     elif prompt_save_path == "default":
         prompt_save_path = f"data/three/prompts/prompt_{context_length}_q{question_index}.txt"
-        prompt = get_three_prompts(context_length, question_index, prompt_save_path)
+        prompt = get_three_prompt(context_length, question_index, prompt_save_path)
     else:
-        prompt = get_three_prompts(context_length, question_index, prompt_save_path)
+        prompt = get_three_prompt(context_length, question_index, prompt_save_path)
     
     print(prompt)
