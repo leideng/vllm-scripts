@@ -26,7 +26,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--context_length", type=int, default=1000, help="The length of the context to be read")
     parser.add_argument("--question_index", type=int, default=1, help="The index of the question to be answered")
-    parser.add_argument("--prompt_save_path", type=str, default=None, help="The path to save the prompt, if not provided (None), the prompt will not be saved; if provided as default value, the prompt will be saved to the default path: data/three/prompts/prompt_{context_length}_q{question_index}.txt")
+    parser.add_argument("--prompt_save_path", type=str, default=None, help="The path to save the prompt, if not provided (None)," +
+                                                                           "the prompt will not be saved; if provided as \"default\"," +
+                                                                           "the prompt will be saved to the default path: " +
+                                                                           "data/three/prompts/prompt_{context_length}_q{question_index}.txt")
     args = parser.parse_args()
 
     context_length = args.context_length
