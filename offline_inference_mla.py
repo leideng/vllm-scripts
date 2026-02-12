@@ -34,6 +34,7 @@ tokenizer = None
 def setup_environment_variables():
     global model, path_to_dataset, data_dir, tokenizer
     model = os.getenv("MODEL_PATH", "/docker/models/DeepSeek-V2-Lite-Chat")
+    #model = os.getenv("MODEL_PATH", "/docker/models/Qwen3-32B")
     if not os.path.isdir(model):
         model = input("Enter path to model, e.g. /home/models/DeepSeek-V2-Lite-Chat: ")
         if not os.path.isdir(model):
@@ -135,7 +136,7 @@ def main():
 
     with build_llm_with_uc(module_path, name, model) as llm:
         prompts = []
-        batch_size = 200
+        batch_size = 20
         assert os.path.isfile(
             path_to_dataset
         ), f"Incorrect dataset path. Please specify the dataset path by `export DATASET_PATH=/path/to/longbench/multifieldqa_zh.jsonl`"
