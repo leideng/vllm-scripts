@@ -25,13 +25,10 @@ def setup_environment_variables():
     os.environ["VLLM_USE_V1"] = "1"
     os.environ["PYTHONHASHSEED"] = "123456"
     os.environ["ENABLE_SPARSE"] = "true"
-    os.environ["ASCEND_RT_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
     os.environ["VLLM_HASH_ATTENTION"] = "1"
-    os.environ["VLLM_DISABLE_COMPILE_CACHE"] = "1"
-
 
     global model, path_to_dataset, data_dir, tokenizer
-    model = os.getenv("MODEL_PATH", "/docker/models/Qwen3-32B")
+    model = os.getenv("MODEL_PATH", "/home/models/DeepSeek-V2-Lite-Chat")
     if not os.path.isdir(model):
         model = input("Enter path to model, e.g. /home/models/DeepSeek-V2-Lite-Chat: ")
         if not os.path.isdir(model):
@@ -39,7 +36,7 @@ def setup_environment_variables():
             sys.exit(1)
 
     path_to_dataset = os.getenv(
-        "DATASET_PATH", "data/multifieldqa_zh.jsonl"
+        "DATASET_PATH", "/home/data/Longbench/data/multifieldqa_zh.jsonl"
     )
     if not os.path.isfile(path_to_dataset):
         path_to_dataset = input(
@@ -49,7 +46,7 @@ def setup_environment_variables():
             print("Exiting. Incorrect dataset path")
             sys.exit(1)
 
-    data_dir = os.getenv("DATA_DIR", "/docker/ldeng/kv_cache")
+    data_dir = os.getenv("DATA_DIR", "/home/data/kv_cache")
     if not os.path.isdir(data_dir):
         data_dir = input(
             "Enter the directory for UCMStore to save kv cache, e.g. /home/data/kv_cache: "
@@ -73,10 +70,10 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         kv_connector_extra_config={
             "ucm_connectors": [
                 {
-                    "ucm_connector_name": "UcmNfsStore",
+                    "ucm_connector_name": "UcmPipelineStore",
                     "ucm_connector_config": {
-                        "storage_backends": data_dir,
-                        "use_direct": False,
+                        "store_pipeline": "Empty",
+                        "share_buffer_enable": True,
                     },
                 }
             ],
@@ -89,11 +86,11 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         kv_transfer_config=ktc,
         max_model_len=32768,
         gpu_memory_utilization=0.8,
-        max_num_batched_tokens=8192,
+        max_num_batched_tokens=30000,
         block_size=128,
-        enforce_eager=False,
+        enforce_eager=True,
         distributed_executor_backend="mp",
-        tensor_parallel_size=8,
+        tensor_parallel_size=2,
         trust_remote_code=True,
     )
 
@@ -162,7 +159,6 @@ def main():
             temperature=0, top_p=0.95, max_tokens=256, ignore_eos=False
         )
 
-       
         print_output(llm, prompts, sampling_params, "first")
 
 
