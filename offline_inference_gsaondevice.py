@@ -25,6 +25,7 @@ def setup_environment_variables():
     os.environ["VLLM_USE_V1"] = "1"
     os.environ["PYTHONHASHSEED"] = "123456"
     os.environ["ENABLE_SPARSE"] = "true"
+    os.environ["ASCEND_RT_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
     os.environ["VLLM_HASH_ATTENTION"] = "1"
     os.environ["VLLM_DISABLE_COMPILE_CACHE"] = "1"
 
@@ -88,11 +89,11 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         kv_transfer_config=ktc,
         max_model_len=32768,
         gpu_memory_utilization=0.8,
-        max_num_batched_tokens=30000,
+        max_num_batched_tokens=8192,
         block_size=128,
         enforce_eager=False,
         distributed_executor_backend="mp",
-        tensor_parallel_size=4,
+        tensor_parallel_size=8,
         trust_remote_code=True,
     )
 
