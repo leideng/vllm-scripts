@@ -91,7 +91,7 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         gpu_memory_utilization=0.8,
         max_num_batched_tokens=30000,
         block_size=128,
-        enforce_eager=True,
+        enforce_eager=False,
         distributed_executor_backend="mp",
         tensor_parallel_size=8,
         trust_remote_code=True,
