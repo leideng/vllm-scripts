@@ -24,11 +24,14 @@ tokenizer = None
 def setup_environment_variables():
     os.environ["VLLM_USE_V1"] = "1"
     os.environ["PYTHONHASHSEED"] = "123456"
+    os.environ["ASCEND_RT_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
     os.environ["ENABLE_SPARSE"] = "true"
     os.environ["VLLM_HASH_ATTENTION"] = "1"
+    os.environ["VLLM_DISABLE_COMPILE_CACHE"] = "1"
 
     global model, path_to_dataset, data_dir, tokenizer
-    model = os.getenv("MODEL_PATH", "/home/models/DeepSeek-V2-Lite-Chat")
+    #model = os.getenv("MODEL_PATH", "/docker/models/DeepSeek-V2-Lite-Chat")
+    model = os.getenv("MODEL_PATH", "/docker/models/Qwen3-32B")
     if not os.path.isdir(model):
         model = input("Enter path to model, e.g. /home/models/DeepSeek-V2-Lite-Chat: ")
         if not os.path.isdir(model):
@@ -36,7 +39,7 @@ def setup_environment_variables():
             sys.exit(1)
 
     path_to_dataset = os.getenv(
-        "DATASET_PATH", "/home/data/Longbench/data/multifieldqa_zh.jsonl"
+        "DATASET_PATH", "data/multifieldqa_zh.jsonl"
     )
     if not os.path.isfile(path_to_dataset):
         path_to_dataset = input(
@@ -46,7 +49,7 @@ def setup_environment_variables():
             print("Exiting. Incorrect dataset path")
             sys.exit(1)
 
-    data_dir = os.getenv("DATA_DIR", "/home/data/kv_cache")
+    data_dir = os.getenv("DATA_DIR", "/docker/ldeng/kv_cache")
     if not os.path.isdir(data_dir):
         data_dir = input(
             "Enter the directory for UCMStore to save kv cache, e.g. /home/data/kv_cache: "
@@ -90,7 +93,7 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         block_size=128,
         enforce_eager=True,
         distributed_executor_backend="mp",
-        tensor_parallel_size=2,
+        tensor_parallel_size=8,
         trust_remote_code=True,
     )
 
