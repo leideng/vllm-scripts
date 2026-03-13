@@ -11,6 +11,7 @@ from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
 from vllm.config import KVTransferConfig
 from vllm.engine.arg_utils import EngineArgs
+from vllm.config import CompilationConfig
 
 from ucm.logger import init_logger
 
@@ -95,6 +96,9 @@ def build_llm_with_uc(module_path: str, name: str, model: str):
         distributed_executor_backend="mp",
         tensor_parallel_size=8,
         trust_remote_code=True,
+        compilation_config=CompilationConfig(
+            cudagraph_mode="FULL_DECODE_ONLY", # Defines the graph mode
+        )
     )
 
     llm = LLM(**asdict(llm_args))
@@ -146,7 +150,7 @@ def main():
 
     with build_llm_with_uc(module_path, name, model) as llm:
         prompts = []
-        batch_size = 20
+        batch_size = 50
         assert os.path.isfile(
             path_to_dataset
         ), f"Incorrect dataset path. Please specify the dataset path by `export DATASET_PATH=/path/to/longbench/multifieldqa_zh.jsonl`"
