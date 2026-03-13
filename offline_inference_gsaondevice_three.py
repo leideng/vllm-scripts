@@ -146,7 +146,7 @@ def main():
 
     with build_llm_with_uc(module_path, name, model) as llm:
         prompts = []
-        batch_size = 100
+        batch_size = 20
         assert os.path.isfile(
             path_to_dataset
         ), f"Incorrect dataset path. Please specify the dataset path by `export DATASET_PATH=/path/to/longbench/multifieldqa_zh.jsonl`"
@@ -155,6 +155,7 @@ def main():
 
         for i in range(batch_size):            
             prompt = f"{i} \n {content}" # put a different number before context to avoid PC
+            print(f"add prompt(short): {prompt[:100]}, ... , {prompt[-100:-1]}")
             prompts.append(get_prompt(prompt))
 
         sampling_params = SamplingParams(
