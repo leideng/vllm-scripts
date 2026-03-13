@@ -31,7 +31,7 @@ def setup_environment_variables():
 
     global model, path_to_dataset, data_dir, tokenizer
     #model = os.getenv("MODEL_PATH", "/docker/models/DeepSeek-V2-Lite-Chat")
-    model = os.getenv("MODEL_PATH", "/docker/models/Qwen3-4B")
+    model = os.getenv("MODEL_PATH", "/docker/models/Qwen3-32B")
     if not os.path.isdir(model):
         model = input("Enter path to model, e.g. /home/models/DeepSeek-V2-Lite-Chat: ")
         if not os.path.isdir(model):
