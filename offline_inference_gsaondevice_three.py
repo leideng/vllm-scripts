@@ -39,7 +39,7 @@ def setup_environment_variables():
             sys.exit(1)
 
     path_to_dataset = os.getenv(
-        "DATASET_PATH", "data/multifieldqa_zh.jsonl"
+        "DATASET_PATH", "data/three/prompts/prompt_30000_q1.txt"
     )
     if not os.path.isfile(path_to_dataset):
         path_to_dataset = input(
@@ -119,7 +119,7 @@ def print_output(
         print(f"Generated text: {generated_text!r}")
         lines.append(generated_text + "\n")
     print(f"Generation took {time.time() - start:.2f} seconds, {req_str} request done.")
-    with open("./newest_out.txt", "w") as f:
+    with open("./newest_out_three.txt", "w") as f:
         f.writelines(lines)
     print("-" * 50)
 
@@ -150,16 +150,15 @@ def main():
         assert os.path.isfile(
             path_to_dataset
         ), f"Incorrect dataset path. Please specify the dataset path by `export DATASET_PATH=/path/to/longbench/multifieldqa_zh.jsonl`"
-        with open(path_to_dataset, "r") as f:
-            lines = f.readlines()
-        for i in range(batch_size):
-            line = lines[i]
-            data = json.loads(line)
-            prompt = f"""阅读以下文字并用中文简短回答：\n\n{data["context"]}\n\n现在请基于上面的文章回答下面的问题，只告诉我答案，不要输出任何其他字词。\n\n问题：{data["input"]}\n回答："""
+        with open(path_to_dataset, "r", encoding="utf-8") as f:
+            content = f.read() # contain both context and questions
+
+        for i in range(batch_size):            
+            prompt = f"{i} \n {content}" # put a different number before context to avoid PC
             prompts.append(get_prompt(prompt))
 
         sampling_params = SamplingParams(
-            temperature=0, top_p=0.95, max_tokens=256, ignore_eos=False
+            temperature=0, top_p=0.95, max_tokens=1024, ignore_eos=False
         )
 
         print_output(llm, prompts, sampling_params, "first")
