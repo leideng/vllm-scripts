@@ -13,9 +13,8 @@
 ucm_connectors:
   - ucm_connector_name: "UcmPipelineStore"
     ucm_connector_config:
-      store_pipeline: "Cache|Posix"
-      storage_backends: "/mnt/test"
-      io_direct: false
+      store_pipeline: "Empty"
+      share_buffer_enable: true
       # cache_buffer_capacity_gb: 256
 
 # When you use UcmNfsStore, you should set enable_event_sync to false.
@@ -24,8 +23,8 @@ enable_event_sync: true
 # metrics_config_path: "/workspace/unified-cache-management/examples/metrics/metrics_configs.yaml"
 
 # Sparse attention configuration
-# ucm_sparse_config:
-  # GSAOnDevice: {}
+ucm_sparse_config:
+  GSAOnDevice: {}
 
 
 # Whether to use layerwise loading/saving (optional, default: True for UCMConnector)
