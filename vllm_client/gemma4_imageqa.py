@@ -12,8 +12,8 @@ client = OpenAI(
 )
 
 # Path to your local images
-image_path_1 = "1200px-Cat03.jpg"
-image_path_2 = "1200px-Cat_November_2010-1a.jpg"
+image_path_1 = "figs/1200px-Cat03.jpg"
+image_path_2 = "figs/1200px-Cat_November_2010-1a.jpg"
 
 # Getting the base64 strings
 base64_image_1 = encode_image(image_path_1)
@@ -44,7 +44,11 @@ response = client.chat.completions.create(
             ]
         }
     ],
-    max_tokens=1024
+    max_tokens=2048
 )
 
-print(f"response: {response.choices[0].message.content}")
+print("="*50+"whole message"+"="*50)
+print(response)
+
+print("="*50+"response"+"="*50)
+print(response.choices[0].message.content)
