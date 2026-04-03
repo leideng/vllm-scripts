@@ -210,3 +210,4 @@ __marimo__/
 kernel_meta/
 extra-info/
 log/
+uv.lock
