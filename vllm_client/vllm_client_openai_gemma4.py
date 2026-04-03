@@ -6,7 +6,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="google/gemma-4-31B-it",
+    model="google/gemma-4-E4B-it",
     messages=[
         {"role": "user", "content": "If 2x+3y=10, 3x-4y=-2; then what is x and y?"}
     ],
